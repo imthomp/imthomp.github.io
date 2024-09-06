@@ -1,0 +1,351 @@
+---
+import { Image } from "astro:assets";
+import Layout from "../layouts/Layout.astro";
+import { aboutPageContent, musicPlaylist } from "../config";
+import ResumeItem from "../components/ResumeItem.astro";
+import SocialLinkBox from "../components/SocialLinkBox.astro";
+import { Icon } from "astro-icon/components";
+---
+
+<Layout seo={aboutPageContent.seo}>
+  <section class="mt-10 max-w-2xl mx-auto px-6">
+    <h1 class="text-3xl mb-1">About</h1>
+    <p class="opacity-60 mb-10 subtitle">{aboutPageContent.subtitle}</p>
+    <div class="mb-14">
+      <p class="mb-5 sm:text-left">
+        Hello 👋, I'm a Software Engineer who adores <span class="gradient-link"
+          >JavaScript</span
+        > and is passionate about open-source. With a knack for building event-driven
+        architecture, I balance code with badminton and find peace in a sip of tea
+        and poetry.
+      </p>
+      <p class="mb-5 sm:text-left">
+        My journey began fueled by curiosity about how Facebook worked, and it's
+        led me here. I've worked as a Software Engineer II at <a
+          class="gradient-link"
+          href="https://www.postman.com/"
+          target="_blank">Postman</a
+        >, graduated from <a
+          class="gradient-link"
+          href="https://vit.ac.in/"
+          target="_blank">VIT Vellore</a
+        >, and now I'm building & scaling neo-banking solutions at <a
+          class="gradient-link"
+          href="https://novo.co/"
+          target="_blank">Novo</a
+        >. My notable contributions at Postman include building <a
+          href="https://www.postman.com/product/postman-interceptor"
+          class="underline-hover">Interceptor</a
+        > and <a
+          href="https://www.postman.com/product/integrations"
+          class="underline-hover">Integrations</a
+        >. Discover more about my Postman <a
+          href="https://vinitshahdeo.dev/saying-goodbye-to-postman"
+          target="_blank"
+          class="underline-hover">journey</a
+        > and valuable <a
+          href="https://vinitshahdeo.dev/10-lessons-learned-as-software-engineer-at-postman"
+          target="_blank"
+          class="underline-hover">lessons</a
+        >.
+      </p>
+    </div>
+    <div class="flex flex-col sm:flex-row">
+      <Image
+        id="about-image-left"
+        src={aboutPageContent.about.image_l.url}
+        alt={aboutPageContent.about.image_l.alt}
+        width={350}
+        height={250}
+        loading="lazy"
+        decoding="async"
+        quality={100}
+        densities={[1.5, 2]}
+        class="w-[350px] h-[250px] object-cover rounded-xl sm:-rotate-6 sm:block image-effect"
+      />
+      <Image
+        id="about-image-right"
+        src={aboutPageContent.about.image_r.url}
+        alt={aboutPageContent.about.image_r.alt}
+        width={150}
+        height={250}
+        loading="lazy"
+        decoding="async"
+        quality={100}
+        densities={[1.5, 2]}
+        class="hidden w-[150px] h-[250px] object-cover rounded-xl rotate-6 mx-auto sm:ml-auto sm:block image-effect"
+      />
+    </div>
+  </section>
+
+  <section class="mt-10 max-w-2xl mx-auto px-6">
+    <div class="mb-14">
+      <p class="mb-5 sm:text-left">
+        <strong>Family</strong>, <strong>friends</strong>, and <strong
+          >shared laughs</strong
+        >? That's where my heart is. Whether it's sharing a cup of tea,
+        listening to poetry, or simply enjoying their company, those moments
+        mean a lot to me. And, when I'm not in front of my screen, you'll likely
+        spot me on the badminton court, rallying shuttlecocks.
+      </p>
+      <p class="mb-5 sm:text-left">
+        <span class="subtitle">I prefer FM Radio over Spotify</span>—call me old
+        school, but there's something magical about tuning into RJs and their
+        spontaneous charm.
+        <br /><br />
+        <strong>Picture this:</strong> I'm deep into debugging production issues
+        while the soothing melody of <a
+          href="#"
+          id="playSong"
+          class="gradient-link">"{musicPlaylist[0].title}"</a
+        >
+        plays in the background.
+
+        <br /><br />
+        <strong
+          ><Icon
+            name="mdi:music-circle-outline"
+            width={25}
+            height={25}
+            class="icon-inline"
+          />Here's a surprise for you</strong
+        >—<span id="enjoySong"></span><span
+          class="underline-hover"
+          id="clickSong"
+          >click here to play
+        </span> the current song, and <span
+          class="underline-hover"
+          id="refreshSong">hit shuffle</span
+        > to change tracks.
+        <br /><br />
+
+        Offline moments are my luxury, and I treasure them deeply. I find peace
+        in late-night strolls and enjoy the simple joys of life.
+      </p>
+      <audio id="song" src={musicPlaylist[0].url}></audio>
+      <p class="mb-5 sm:text-left">
+        <a href="https://github.com/vinitshahdeo" target="_blank">
+          <img
+            src="https://img.shields.io/github/followers/vinitshahdeo.svg?label=Follow%20@vinitshahdeo&style=social"
+            alt="GitHub Followers | @vinitshahdeo"
+          />
+        </a>
+      </p>
+      <p class="mb-5 sm:text-left">
+        <strong>Open Source?</strong> It's a world I'm deeply involved in. I've had
+        the privilege of mentoring in <a
+          href="https://blog.postman.com/author/vinit-shahdeo/"
+          class="underline-hover">GSoC</a
+        > at AsyncAPI and Postman. I'm truly honored to have been recognized as a
+        <a
+          class="gradient-link"
+          href="https://stars.github.com/profiles/vinitshahdeo/"
+          target="_blank">GitHub Star</a
+        > twice, representing India. I'm always available for a 1:1 chat on <a
+          href="https://topmate.io/vinitshahdeo"
+          class="underline-hover">Topmate</a
+        >.
+      </p>
+    </div>
+    <script>
+      import { musicPlaylist } from "../config";
+
+      let shuffledPlaylist: any[] = [];
+      let currentIndex = 0;
+
+      function shuffleArray(array: any[]) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+      }
+
+      shuffledPlaylist = shuffleArray([...musicPlaylist]);
+
+      function randomSong() {
+        if (currentIndex >= shuffledPlaylist.length) {
+          shuffledPlaylist = shuffleArray([...musicPlaylist]);
+          currentIndex = 0;
+        }
+
+        const randomSong = shuffledPlaylist[currentIndex];
+        currentIndex++;
+
+        const songElement = document.getElementById("song");
+        if (songElement instanceof HTMLAudioElement) {
+          songElement.src = randomSong.url;
+        }
+
+        const playSongElement = document.getElementById("playSong");
+        if (playSongElement) {
+          playSongElement.textContent = `"${randomSong.title}"`;
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        randomSong();
+        initializeEventListeners();
+        initializeAudioEvents();
+      });
+
+      function updateSongState() {
+        const song = document.getElementById("song");
+        const icon = document.querySelector(".icon-inline");
+        const clickSongElement = document.getElementById("clickSong");
+        const enjoySongElement = document.getElementById("enjoySong");
+
+        if (song instanceof HTMLAudioElement) {
+          song.volume = 0.3;
+          if (song.paused) {
+            song.play();
+          } else {
+            song.pause();
+            song.currentTime = 0;
+            icon && icon.classList.remove("icon-spin");
+            enjoySongElement && (enjoySongElement.textContent = "");
+            clickSongElement &&
+              (clickSongElement.textContent = "click here to play");
+          }
+        }
+      }
+
+      function initializeEventListeners() {
+        document
+          .getElementById("playSong")
+          ?.addEventListener("click", (event) => {
+            event.preventDefault();
+            updateSongState();
+          });
+
+        document
+          .getElementById("refreshSong")
+          ?.addEventListener("click", (event) => {
+            event.preventDefault();
+            randomSong();
+            updateSongState();
+          });
+
+        document
+          .getElementById("clickSong")
+          ?.addEventListener("click", (event) => {
+            event.preventDefault();
+            updateSongState();
+          });
+      }
+
+      function initializeAudioEvents() {
+        const audioElement = document.getElementById("song");
+        const songTitleElement = document.getElementById("playSong");
+        const icon = document.querySelector(".icon-inline");
+        const clickSongElement = document.getElementById("clickSong");
+        const enjoySongElement = document.getElementById("enjoySong");
+        const leftImageElement = document.getElementById("about-image-left");
+        const rightImageElement = document.getElementById("about-image-right");
+
+        if (audioElement && songTitleElement) {
+          audioElement.addEventListener("play", () => {
+            songTitleElement.classList.add("glowing-animation");
+            icon && icon.classList.add("icon-spin");
+            leftImageElement &&
+              leftImageElement.classList.add("image-music-effect");
+            rightImageElement &&
+              rightImageElement.classList.add("image-music-effect");
+            enjoySongElement &&
+              (enjoySongElement.textContent =
+                "welcome to my radio station! Scroll further, relax, and enjoy the music! If you're not liking it, ");
+            clickSongElement &&
+              (clickSongElement.textContent = "click here to stop");
+          });
+
+          audioElement.addEventListener("pause", () => {
+            songTitleElement.classList.remove("glowing-animation");
+            icon && icon.classList.remove("icon-spin");
+            leftImageElement &&
+              leftImageElement.classList.remove("image-music-effect");
+            rightImageElement &&
+              rightImageElement.classList.remove("image-music-effect");
+            enjoySongElement && (enjoySongElement.textContent = "");
+            clickSongElement &&
+              (clickSongElement.textContent = "click here to play");
+          });
+
+          audioElement.addEventListener("ended", () => {
+            songTitleElement.classList.remove("glowing-animation");
+            icon && icon.classList.remove("icon-spin");
+            enjoySongElement && (enjoySongElement.textContent = "");
+            clickSongElement &&
+              (clickSongElement.textContent = "click here to play");
+          });
+        }
+      }
+    </script>
+  </section>
+
+  <section class="my-20 mt-32 max-w-2xl mx-auto px-6 sm:flex sm:gap-16">
+    <h2 class="mb-8 sm:mb-0 opacity-60">Work</h2>
+    <div>
+      <div class="mb-6">
+        My tech toolbox includes <strong>Node.js</strong>, <strong>Go</strong>, <strong
+          >Kafka</strong
+        >, <strong>GraphQL</strong>, <strong>REST</strong>, <strong>AWS</strong
+        >, and much more – but my true love? APIs, of course!
+      </div>
+      <div class="grid grid-cols-1 group">
+        {aboutPageContent.work.items.map((item) => <ResumeItem {...item} />)}
+      </div>
+    </div>
+  </section>
+  <section class="mt-32 max-w-2xl mx-auto px-6 sm:flex sm:gap-16">
+    <h2 class="mb-8 sm:mb-0 opacity-60">Connect</h2>
+    <div>
+      <div class="mb-6">
+        Come find me on 𝕏 (<a
+          href="https://twitter.com/Vinit_Shahdeo"
+          target="_blank"
+          class="underline-hover">Twitter</a
+        >) and <a
+          href="https://www.linkedin.com/in/vinitshahdeo"
+          target="_blank"
+          class="underline-hover">LinkedIn</a
+        > – I'm excited to connect! You can explore my professional side on <a
+          href="https://peerlist.io/vinitshahdeo"
+          target="_blank"
+          class="underline-hover">Peerlist</a
+        >. And if you're curious about my thoughts, swing by my blog
+        <a class="gradient-link" href="https://vinitshahdeo.dev" target="_blank"
+          >vinitshahdeo.dev</a
+        >.
+      </div>
+      <div class="grid grid-cols-2 gap-2 group">
+        {
+          aboutPageContent.connect.links.map((item) => (
+            <SocialLinkBox {...item} />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<!--
+
+___  ___          _                 _ _   _       _                           
+|  \/  |         | |               (_) | | |     | |                          
+| .  . | __ _  __| | ___  __      ___| |_| |__   | |     _____   _____        
+| |\/| |/ _` |/ _` |/ _ \ \ \ /\ / / | __| '_ \  | |    / _ \ \ / / _ \       
+| |  | | (_| | (_| |  __/  \ V  V /| | |_| | | | | |___| (_) \ V /  __/       
+\_|  |_/\__,_|\__,_|\___|   \_/\_/ |_|\__|_| |_| \_____/\___/ \_/ \___|       
+                                                                              
+                                                                              
+______         _   _ _       _ _     _____ _           _         _            
+| ___ \       | | | (_)     (_) |   /  ___| |         | |       | |           
+| |_/ /_   _  | | | |_ _ __  _| |_  \ `--.| |__   __ _| |__   __| | ___  ___  
+| ___ \ | | | | | | | | '_ \| | __|  `--. \ '_ \ / _` | '_ \ / _` |/ _ \/ _ \ 
+| |_/ / |_| | \ \_/ / | | | | | |_  /\__/ / | | | (_| | | | | (_| |  __/ (_) |
+\____/ \__, |  \___/|_|_| |_|_|\__| \____/|_| |_|\__,_|_| |_|\__,_|\___|\___/ 
+        __/ |                                                                 
+       |___/                                                                  
+
+
+-->

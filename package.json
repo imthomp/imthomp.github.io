@@ -1,0 +1,60 @@
+{
+  "name": "",
+  "type": "module",
+  "author": {
+    "name": "Vinit Shahdeo",
+    "email": "vinitshahdeo@gmail.com",
+    "url": "https://github.com/vinitshahdeo"
+  },
+  "license": "MIT",
+  "description": "Minimal Portfolio for Software Engineer using Astro and Tailwind CSS | Made with ❤️ by Vinit Shahdeo",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vinitshahdeo/portfolio.git"
+  },
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev --host",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "lint": "npx prettier . --write",
+    "author": "open https://github.com/vinitshahdeo",
+    "demo": "open https://vinitshahdeo.com"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.3",
+    "@astrojs/netlify": "^5.3.3",
+    "@astrojs/partytown": "^2.1.1",
+    "@astrojs/sitemap": "^3.1.6",
+    "@astrojs/tailwind": "^5.1.0",
+    "astro": "^4.5.10",
+    "astro-icon": "^1.1.0",
+    "dayjs": "^1.11.11",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.5.4"
+  },
+  "devDependencies": {
+    "@iconify-json/mdi": "^1.1.64",
+    "@tailwindcss/typography": "^0.5.12",
+    "prettier": "^3.3.2",
+    "prettier-plugin-astro": "^0.14.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "keywords": [
+    "portfolio",
+    "astro",
+    "developer",
+    "minimalistic",
+    "personal-website",
+    "tailwind"
+  ],
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,md,mdx,json,astro}": [
+      "prettier --write --plugin=prettier-plugin-astro"
+    ]
+  }
+}

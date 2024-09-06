@@ -1,0 +1,173 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { nowPageContent, gitHubUserId, gitHubUserName } from "../config";
+import SoourceLinkBox from "../components/SocialLinkBox.astro";
+import { Icon } from "astro-icon/components";
+
+function formatDate(dateString: string) {
+  const days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const date = new Date(dateString);
+  const dayName = days[date.getDay()];
+  const monthName = months[date.getMonth()];
+  const day = date.getDate();
+  const year = date.getFullYear();
+  let hours = date.getHours();
+  const minutes = date.getMinutes();
+  const ampm = hours >= 12 ? "PM" : "AM";
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  const minutesStr = minutes < 10 ? "0" + minutes : minutes;
+
+  return `${dayName}, ${monthName} ${day}, ${year} ${hours}:${minutesStr} ${ampm}`;
+}
+
+const lastModified = formatDate(new Date().toISOString());
+---
+
+<Layout seo={nowPageContent.seo}>
+  <section class="mt-10 max-w-2xl mx-auto px-6">
+    <h1 class="text-3xl mb-1">{nowPageContent.title}</h1>
+    <p class="opacity-60 mb-10 subtitle">{nowPageContent.subtitle}</p>
+    <div class="mb-14">
+      <p class="mb-5 sm:text-left">
+        Lately, I've been tinkering with <span class="gradient-link">Go</span>,
+        crafting microservices at <a
+          href="https://novo.co"
+          target="_blank"
+          class="underline-hover">Novo</a
+        > to supercharge banking platforms for small and medium businesses across
+        the USA.
+      </p>
+      <p class="mb-5 sm:text-left">
+        On weekends, I actively contribute to open-source projects, work towards
+        building better developer communities, and deliver talks on open-source.
+        Happy to collaborate if you're looking for a speaker.
+        <p class="mb-5 sm:text-left">
+          <a href=`https://github.com/${gitHubUserName}` target="_blank">
+            <img
+              src=`https://next.ossinsight.io/widgets/official/compose-user-dashboard-stats/thumbnail.png?user_id=${gitHubUserId}&image_size=auto&color_scheme=dark`
+              width="770"
+              height="auto"
+              alt="Dashboard stats of @vinitshahdeo"
+              loading="lazy"
+            />
+          </a>
+        </p>
+      </p>
+      <p class="mb-5 sm:text-left">
+        On the side, I'm working on another community-led open-source initiative
+        to help the community level up their JavaScript coding skills by solving
+        a non-trivial problem daily—learn more about <a
+          href="https://github.com/vinitshahdeo/50DaysOfJavaScript"
+          target="_blank"
+          class="underline-hover">#50DaysOfJavaScript</a
+        >. Previously, I initiated <a
+          href="https://github.com/vinitshahdeo/Hacktoberfest2021"
+          target="_blank"
+          class="underline-hover">Hacktoberfest'21</a
+        >, which had a significant global impact, engaging over <span
+          class="gradient-link">1000</span
+        > developers worldwide.
+      </p>
+      <p class="mb-5 sm:text-left">
+        <a href="https://50daysofjavascript.netlify.app/">
+          <img
+            class="mt-2 mb-2"
+            src="https://img.shields.io/badge/Join-%2350DaysOfJavaScript-EAD54D?logo=javascript&labelColor=31322E"
+            alt="Join #50DaysOfJavaScript"
+          />
+        </a>
+      </p>
+      <p class="mb-5 sm:text-left">
+        Outside of coding, I've been cafe-hopping through <span
+          class="gradient-link glowing-animation">Bengaluru</span
+        >, hunting down epic eats. Plus, I've tackled my sleep schedule and
+        started sneaking in these mini digital detoxes. Feeling like I'm on a
+        rocketship! 🚀
+      </p>
+      <p class="mb-5 sm:text-left">
+        The best part? You can grab the <a
+          class="gradient-link"
+          href="https://github.com/vinitshahdeo/"
+          target="_blank">Source Code</a
+        > of this website on GitHub. Go ahead, fork it, tweak it, and make it totally
+        yours! If you've enjoyed using it, consider leaving a star on <a
+          class="underline-hover"
+          href="https://github.com/vinitshahdeo/"
+          target="_blank">GitHub</a
+        >—it means a lot! Additionally, it's available as an Astro template,
+        offering you multiple ways to kickstart your own portfolio.
+      </p>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 group">
+      {nowPageContent.sourceLinks.map((item) => <SoourceLinkBox {...item} />)}
+      <br /><br />
+    </div>
+    <div class="mb-14">
+      <p class="mb-5 sm:text-left">
+        This page is inspired by <a
+          href="https://nownownow.com/about"
+          target="_blank"
+          class="underline-hover">Derek Sivers</a
+        >'s <span class="gradient-link">/now</span> page. It's a great way to share
+        what you're up to now. If you have your own site, consider creating one too—it's
+        a good reminder of your priorities and a public statement of your values.
+      </p>
+    </div>
+    <div
+      class="p-4 mb-14 sm:text-left opacity-60 group-hover:opacity-30 hover:!opacity-100 transition-opacity border border-dashed border-gray-300 rounded-lg space-y-2 hover:cursor-pointer"
+    >
+      <div class="flex items-center space-x-2">
+        <Icon
+          name="mdi:calendar-clock"
+          width={25}
+          height={25}
+          class="icon-inline"
+        />
+        <span>Last Modified: {lastModified}</span>
+      </div>
+      <div class="flex items-center space-x-2">
+        <Icon
+          name="mdi:map-marker-radius"
+          width={25}
+          height={25}
+          class="icon-inline"
+        />
+        <span>Location: Bengaluru, India</span>
+      </div>
+      <div class="flex items-center space-x-2">
+        <Icon name="mdi:git" width={25} height={25} class="icon-inline" />
+        <span
+          >Committed by: <a
+            href="https://github.com/vinitshahdeo"
+            target="_blank">@vinitshahdeo</a
+          ></span
+        >
+      </div>
+    </div>
+  </section>
+</Layout>
