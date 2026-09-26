@@ -1,0 +1,31 @@
+---
+import { site } from "../data/site";
+
+interface Props {
+	class?: string;
+	showAddress?: boolean;
+}
+const { class: className = "", showAddress = false } = Astro.props;
+
+const encoded = Buffer.from(site.email).toString("base64");
+const [user, domain] = site.email.split("@");
+const fallback = showAddress ? `${user} (at) ${domain.replace(".", " (dot) ")}` : "Email";
+---
+
+<a
+	class={`email-obfuscated ${className}`}
+	data-e={encoded}
+	data-show={showAddress ? "1" : "0"}
+	href="#"
+	rel="nofollow"
+>
+	<slot>{fallback}</slot>
+</a>
+
+<script>
+	document.querySelectorAll<HTMLAnchorElement>(".email-obfuscated").forEach((el) => {
+		const address = atob(el.dataset.e ?? "");
+		el.href = `mailto:${address}`;
+		if (el.dataset.show === "1") el.textContent = address;
+	});
+</script>

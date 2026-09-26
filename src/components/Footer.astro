@@ -1,0 +1,18 @@
+---
+import { site } from "../data/site";
+import Email from "./Email.astro";
+---
+
+<footer class="mt-24 border-t border-border">
+	<div
+		class="mx-auto flex max-w-3xl flex-col gap-2 px-6 py-8 font-mono text-xs text-text-muted sm:flex-row sm:items-center sm:justify-between"
+	>
+		<p>{new Date().getFullYear()} {site.name}</p>
+		<div class="flex gap-4">
+			<Email class="hover:text-accent" />
+			<a href={site.links.github} class="hover:text-accent">GitHub</a>
+			<a href={site.links.scholar} class="hover:text-accent">Scholar</a>
+			<a href={site.links.linkedin} class="hover:text-accent">LinkedIn</a>
+		</div>
+	</div>
+</footer>

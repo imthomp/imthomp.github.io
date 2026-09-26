@@ -1,0 +1,84 @@
+---
+const links = [
+	{ href: "/", label: "About" },
+	{ href: "/research", label: "Research" },
+	{ href: "/cv", label: "CV" },
+];
+const current = Astro.url.pathname;
+---
+
+<nav>
+	<div class="mx-auto flex max-w-3xl items-baseline justify-between border-b-2 border-text px-6 pt-14 pb-4">
+		<a href="/" class="font-display text-lg font-semibold tracking-tight">
+			Isaac Thompson
+		</a>
+		<div class="flex items-center gap-6 font-mono text-xs uppercase tracking-wide">
+			{
+				links.map((link) => {
+					const active =
+						link.href === "/" ? current === "/" : current.startsWith(link.href);
+					return (
+						<a
+							href={link.href}
+							class={active ? "text-accent" : "text-text-muted hover:text-accent"}
+						>
+							{link.label}
+						</a>
+					);
+				})
+			}
+			<button
+				id="theme-toggle"
+				type="button"
+				aria-label="Toggle dark mode"
+				class="text-text-muted hover:text-accent"
+			>
+				<svg
+					id="icon-sun"
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					class="hidden h-3.5 w-3.5"
+				>
+					<circle cx="12" cy="12" r="4"></circle>
+					<path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"
+					></path>
+				</svg>
+				<svg
+					id="icon-moon"
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					class="hidden h-3.5 w-3.5"
+				>
+					<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+				</svg>
+			</button>
+		</div>
+	</div>
+</nav>
+
+<script>
+	const root = document.documentElement;
+	const sun = document.getElementById("icon-sun");
+	const moon = document.getElementById("icon-moon");
+
+	function syncIcons() {
+		const isDark = root.getAttribute("data-theme") === "dark";
+		sun?.classList.toggle("hidden", !isDark);
+		moon?.classList.toggle("hidden", isDark);
+	}
+
+	syncIcons();
+
+	document.getElementById("theme-toggle")?.addEventListener("click", () => {
+		const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+		localStorage.setItem("theme", next);
+		root.setAttribute("data-theme", next);
+		syncIcons();
+	});
+</script>

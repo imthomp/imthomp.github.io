@@ -1,0 +1,153 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { site } from "../data/site";
+import { education, experience, skills, coursework } from "../data/cv";
+import { publications } from "../data/publications";
+import Email from "../components/Email.astro";
+
+function linkify(text: string) {
+	return text.replace(
+		"ataexamcorpus.net",
+		'<a href="https://ataexamcorpus.net" class="underline decoration-border underline-offset-4 hover:text-accent">ataexamcorpus.net</a>',
+	);
+}
+
+const bare = (url: string) => url.replace(/^https?:\/\//, "").replace(/\/$/, "");
+---
+
+<Layout title="CV" description="Curriculum vitae for Isaac Thompson.">
+	<div class="flex items-baseline justify-between border-b-2 border-text pb-3">
+		<h1 class="font-display text-2xl font-semibold">Isaac Thompson</h1>
+		<button
+			id="print-btn"
+			type="button"
+			class="no-print font-mono text-xs uppercase tracking-wide text-text-muted hover:text-accent"
+		>
+			Print / Save as PDF
+		</button>
+	</div>
+	<p class="mt-3 font-mono text-xs text-text-muted">
+		{site.location} |{" "}
+		<Email showAddress class="hover:text-accent" /> |{" "}
+		<a href={site.links.github} class="hover:text-accent">{bare(site.links.github)}</a> |{" "}
+		<a href={site.links.scholar} class="hover:text-accent">scholar.google.com</a> |{" "}
+		<a href={site.links.linkedin} class="hover:text-accent">{bare(site.links.linkedin)}</a>
+	</p>
+
+	<section class="mt-12">
+		<h2 class="border-b border-border pb-2.5 font-mono text-[11px] uppercase tracking-widest text-accent">
+			Education
+		</h2>
+		<div class="mt-5 divide-y divide-border">
+			{
+				education.map((ed) => (
+					<div class="py-4 first:pt-0">
+						<div class="flex flex-wrap items-baseline justify-between gap-x-4">
+							<h3 class="font-display font-semibold">{ed.degree}</h3>
+							<span class="font-mono text-[11px] text-text-muted">{ed.dates}</span>
+						</div>
+						<p class="text-sm text-text-muted">{ed.school}, {ed.location}</p>
+						<ul class="mt-1.5 list-inside list-disc text-sm text-text-muted marker:text-accent">
+							{ed.details.map((d) => <li>{d}</li>)}
+						</ul>
+					</div>
+				))
+			}
+		</div>
+	</section>
+
+	<section class="mt-12">
+		<h2 class="border-b border-border pb-2.5 font-mono text-[11px] uppercase tracking-widest text-accent">
+			Research
+		</h2>
+		<ol class="mt-5 divide-y divide-border">
+			{
+				publications.map((pub, i) => (
+					<li class="grid grid-cols-[2rem_1fr_auto] items-baseline gap-4 py-4">
+						<span class="font-mono text-xs text-text-muted">{String(i + 1).padStart(2, "0")}</span>
+						<div>
+							<h3 class="font-display font-semibold">{pub.title}</h3>
+							<p class="mt-0.5 font-mono text-[10px] uppercase tracking-wide text-text-muted">{pub.role}</p>
+							<p class="mt-1.5 text-sm text-text-muted">{pub.description}</p>
+						</div>
+						<span class="whitespace-nowrap text-right font-mono text-[10px] uppercase tracking-wide text-text-muted">
+							{pub.venue}
+						</span>
+					</li>
+				))
+			}
+		</ol>
+	</section>
+
+	<section class="mt-12">
+		<h2 class="border-b border-border pb-2.5 font-mono text-[11px] uppercase tracking-widest text-accent">
+			Experience
+		</h2>
+		<div class="mt-5 divide-y divide-border">
+			{
+				experience.map((exp) => (
+					<div class="py-4 first:pt-0">
+						<div class="flex flex-wrap items-baseline justify-between gap-x-4">
+							<h3 class="font-display font-semibold">{exp.role}</h3>
+							<span class="font-mono text-[11px] text-text-muted">{exp.dates}</span>
+						</div>
+						<p class="text-sm text-text-muted">
+							{exp.orgUrl ? (
+								<a href={exp.orgUrl} class="underline decoration-border underline-offset-4 hover:text-accent">{exp.org}</a>
+							) : (
+								exp.org
+							)}, {exp.location}
+						</p>
+						<ul class="mt-1.5 list-inside list-disc space-y-0.5 text-sm text-text-muted marker:text-accent">
+							{exp.bullets.map((b) => <li set:html={linkify(b)} />)}
+						</ul>
+					</div>
+				))
+			}
+		</div>
+	</section>
+
+	<section class="mt-12">
+		<h2 class="border-b border-border pb-2.5 font-mono text-[11px] uppercase tracking-widest text-accent">
+			Skills
+		</h2>
+		<dl class="mt-5 space-y-2.5 text-sm">
+			<div class="flex flex-wrap gap-x-2">
+				<dt class="font-mono text-[11px] uppercase tracking-wide text-text-muted">Technical</dt>
+				<dd class="text-text-muted">{skills.technical.join(", ")}</dd>
+			</div>
+			<div class="flex flex-wrap gap-x-2">
+				<dt class="font-mono text-[11px] uppercase tracking-wide text-text-muted">Languages</dt>
+				<dd class="text-text-muted">{skills.languages.join(", ")}</dd>
+			</div>
+			<div class="flex flex-wrap gap-x-2">
+				<dt class="font-mono text-[11px] uppercase tracking-wide text-text-muted">Interests</dt>
+				<dd class="text-text-muted">{skills.research.join(", ")}</dd>
+			</div>
+		</dl>
+	</section>
+
+	<section class="mt-12">
+		<h2 class="border-b border-border pb-2.5 font-mono text-[11px] uppercase tracking-widest text-accent">
+			Relevant Coursework
+		</h2>
+		<dl class="mt-5 space-y-2.5 text-sm">
+			<div class="flex flex-wrap gap-x-2">
+				<dt class="font-mono text-[11px] uppercase tracking-wide text-text-muted">Upcoming</dt>
+				<dd class="text-text-muted">{coursework.upcoming.join(", ")}</dd>
+			</div>
+			<div class="flex flex-wrap gap-x-2">
+				<dt class="font-mono text-[11px] uppercase tracking-wide text-text-muted">Graduate</dt>
+				<dd class="text-text-muted">{coursework.graduate.join(", ")}</dd>
+			</div>
+			<div class="flex flex-wrap gap-x-2">
+				<dt class="font-mono text-[11px] uppercase tracking-wide text-text-muted">Undergraduate</dt>
+				<dd class="text-text-muted">{coursework.undergraduate.join(", ")}</dd>
+			</div>
+		</dl>
+	</section>
+</Layout>
+
+<script>
+	document.getElementById("print-btn")?.addEventListener("click", () => window.print());
+</script>
