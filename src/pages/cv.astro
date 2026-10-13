@@ -2,8 +2,13 @@
 import Layout from "../layouts/Layout.astro";
 import { site } from "../data/site";
 import { education, experience, skills, coursework } from "../data/cv";
-import { publications } from "../data/publications";
+import { published, workingPapers } from "../data/publications";
 import Email from "../components/Email.astro";
+
+const pubSections = [
+	{ heading: "Publications", items: published },
+	{ heading: "Working Papers", items: workingPapers },
+];
 
 function linkify(text: string) {
 	return text.replace(
@@ -56,28 +61,30 @@ const bare = (url: string) => url.replace(/^https?:\/\//, "").replace(/\/$/, "")
 		</div>
 	</section>
 
-	<section class="mt-12">
-		<h2 class="border-b border-border pb-2.5 font-mono text-[11px] uppercase tracking-widest text-accent">
-			Research
-		</h2>
-		<ol class="mt-5 divide-y divide-border">
-			{
-				publications.map((pub, i) => (
-					<li class="grid grid-cols-[2rem_1fr_auto] items-baseline gap-4 py-4">
-						<span class="font-mono text-xs text-text-muted">{String(i + 1).padStart(2, "0")}</span>
-						<div>
-							<h3 class="font-display font-semibold">{pub.title}</h3>
-							<p class="mt-0.5 font-mono text-[10px] uppercase tracking-wide text-text-muted">{pub.role}</p>
-							<p class="mt-1.5 text-sm text-text-muted">{pub.description}</p>
-						</div>
-						<span class="whitespace-nowrap text-right font-mono text-[10px] uppercase tracking-wide text-text-muted">
-							{pub.venue}
-						</span>
-					</li>
-				))
-			}
-		</ol>
-	</section>
+	{
+		pubSections.map((section) => (
+			<section class="mt-12">
+				<h2 class="border-b border-border pb-2.5 font-mono text-[11px] uppercase tracking-widest text-accent">
+					{section.heading}
+				</h2>
+				<ol class="mt-5 divide-y divide-border">
+					{section.items.map((pub, i) => (
+						<li class="grid grid-cols-[2rem_1fr_auto] items-baseline gap-4 py-4">
+							<span class="font-mono text-xs text-text-muted">{String(i + 1).padStart(2, "0")}</span>
+							<div>
+								<h3 class="font-display font-semibold">{pub.title}</h3>
+								<p class="mt-0.5 font-mono text-[10px] uppercase tracking-wide text-text-muted">{pub.role}</p>
+								<p class="mt-1.5 text-sm text-text-muted">{pub.description}</p>
+							</div>
+							<span class="whitespace-nowrap text-right font-mono text-[10px] uppercase tracking-wide text-text-muted">
+								{pub.venue}
+							</span>
+						</li>
+					))}
+				</ol>
+			</section>
+		))
+	}
 
 	<section class="mt-12">
 		<h2 class="border-b border-border pb-2.5 font-mono text-[11px] uppercase tracking-widest text-accent">

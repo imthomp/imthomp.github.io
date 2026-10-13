@@ -2,11 +2,10 @@
 import Layout from "../layouts/Layout.astro";
 import { Image } from "astro:assets";
 import Email from "../components/Email.astro";
+import PubLinks from "../components/PubLinks.astro";
 import { site } from "../data/site";
-import { publications } from "../data/publications";
+import { published } from "../data/publications";
 import isaacPhoto from "../assets/isaac.jpg";
-
-const featured = publications.slice(0, 3);
 
 const tagColor: Record<string, string> = {
 	red: "text-tag-red",
@@ -68,12 +67,13 @@ const tagColor: Record<string, string> = {
 		</div>
 		<ol class="divide-y divide-border">
 			{
-				featured.map((pub, i) => (
+				published.map((pub, i) => (
 					<li class="grid grid-cols-[2rem_1fr_auto] items-baseline gap-4 py-4">
 						<span class="font-mono text-xs text-text-muted">{String(i + 1).padStart(2, "0")}</span>
 						<div>
 							<h3 class="font-display font-semibold">{pub.title}</h3>
 							<p class="mt-1 max-w-[54ch] text-sm leading-relaxed text-text-muted">{pub.description}</p>
+							<PubLinks pub={pub} />
 						</div>
 						<span class="whitespace-nowrap text-right font-mono text-[10px] uppercase tracking-wide text-text-muted">
 							{pub.venue}

@@ -1,14 +1,25 @@
 export interface Publication {
 	title: string;
 	description: string;
-	role: "First author" | "Co-author";
+	role: "Sole author" | "First author" | "Co-author";
 	venue: string;
 	status: "published" | "in-progress";
 	code?: string;
 	url?: string;
 }
 
+// Array order is display order within each status group.
 export const publications: Publication[] = [
+	{
+		title: "AmanaMT: Translation Direction Predicts Automatic Metric Reliability",
+		description:
+			"Benchmarked 10 MT evaluation metrics across 730,748 segments and 33 languages. Translation direction is the strongest predictor of metric–human agreement (η² = 0.31), far ahead of morphological type (η² = 0.07). Also identifies a Simpson's Paradox in multi-year evaluation.",
+		role: "Sole author",
+		venue: "WMT 2026 @ EMNLP",
+		status: "published",
+		url: "https://www2.statmt.org/wmt26/pdf/2026.wmt-1.42.pdf",
+		code: "https://github.com/byu-matrix-lab/amana-mt",
+	},
 	{
 		title: "Bringing Mapudungun into the Modern MT Ecosystem",
 		description:
@@ -20,57 +31,51 @@ export const publications: Publication[] = [
 		code: "https://github.com/byu-matrix-lab/mapudungun-nllb",
 	},
 	{
-		title: "Lost in Translation or Lost in the Model?",
+		title: "Drawing Legs on a Snake: Handling Out-of-Vocabulary Characters in Pretrained Chinese MT",
 		description:
-			"A mechanistic study of cultural bias in multilingual LLMs. A matched-pair metric spanning 105 untranslatable concepts, 28 languages, and 4 models shows cultural concepts flatten toward English in a phase-specific, causally steerable subspace.",
+			"Found that pretrained MT models can't represent many Chinese characters, and showed that a new embedding per missing character fixes names and ordinary words while radical-based decomposition never helps; proposed a dictionary-plus-pronunciation initialization for characters with no training data.",
 		role: "First author",
-		venue: "Seeking venue",
-		status: "in-progress",
-		code: "https://github.com/imthomp/lost-in-the-model",
-	},
-	{
-		title: "Lies, Damned Lies, and N-Grams",
-		description:
-			"Benchmarked 10 MT evaluation metrics across 707k segments and 31 languages. Translation direction × morphological type (η² = 0.72) predicts metric reliability, attributing two failure modes to domain mismatch and Simpson's Paradox.",
-		role: "First author",
-		venue: "Seeking venue",
-		status: "in-progress",
-		code: "https://github.com/imthomp/multilingual-mqm-benchmark",
-	},
-	{
-		title: "“Drawing Legs on a Snake”",
-		description:
-			"Identified a systematic BLEU inflation artifact in sub-character Chinese MT across 9 tokenization schemes and 2 pretrained models, confirmed across three evaluation paradigms (COMET, LLM-as-judge, bootstrap significance testing).",
-		role: "First author",
-		venue: "Seeking venue",
+		venue: "In preparation",
 		status: "in-progress",
 		code: "https://github.com/imthomp/subchar-mt",
 	},
 	{
-		title: "Needles Without Borders",
+		title: "Span F1 Misreads Cross-Lingual Retrieval",
 		description:
-			"A cross-lingual needle-in-a-haystack evaluation across 8 languages and 5 models. English SFT fails to transfer retrieval to non-Latin-script languages due to answer-span illegibility, supported by five-type needle ablation and GQA-corrected LoRA weight-delta analysis.",
+			"Multilingual needle-in-a-haystack tests score correct English answers as wrong. This artifact explains most of the non-Latin-script gap. It also manufactures cross-script transfer from fine-tuning and reshuffles MLQA rankings across 33 models in lm-evaluation-harness. We propose script-aware scoring as a drop-in fix.",
 		role: "First author",
-		venue: "Seeking venue",
+		venue: "In preparation",
 		status: "in-progress",
 		code: "https://github.com/imthomp/needle-in-a-haystack",
 	},
 	{
-		title: "Speech Registers for Multimodal MT",
+		title: "Lost in Translation or Lost in the Model?",
 		description:
-			"Applies source-token registration to improve zero-shot performance across all four {S,T}×{S,T} MT directions; benchmarks NLLB-200 (3.3B), fine-tuned NLLB (600M), and Whisper across 420 directions and 8 language pairs.",
-		role: "Co-author",
-		venue: "Seeking venue",
+			"Do multilingual LLMs flatten culturally untranslatable words, like Portuguese saudade, toward their English glosses? A matched-pair study of 105 untranslatable concepts across 28 languages and 7 models finds they don't. Untranslatables stay consistently farther from English than exact translations through the models' middle layers, and this holds after removing language-identity effects.",
+		role: "First author",
+		venue: "In preparation",
 		status: "in-progress",
-		code: "https://github.com/byu-matrix-lab/project-speech-registers",
+		code: "https://github.com/imthomp/lost-in-the-model",
 	},
 	{
-		title: "LADLE: LoRA Angle-Driven Language Ensemble",
+		title: "Donor or Seed? Separating Donor Effects from Training Noise in Low-Resource Translation",
 		description:
-			"Uses LoRA weight-angle distances to select helper languages for NLLB-1.3B fine-tuning targeting Chuukese and Guaraní; achieves +12.9 spBLEU over zero-shot, outperforming model soups (Wortsman et al.).",
+			"Shows that comparing donor languages for low-resource NLLB fine-tuning on single runs mostly measures seed noise. A donor × seed variance decomposition across six targets finds donor effects are real but small, and similarity proxies fail to predict them.",
 		role: "Co-author",
-		venue: "Seeking venue",
+		venue: "In preparation",
 		status: "in-progress",
 		code: "https://github.com/byu-matrix-lab/ladle",
 	},
+	{
+		title: "Speech Registers for Multimodal MT",
+		description:
+			"Applies source-token registration (Qu et al. 2025) to improve zero-shot performance across all four {S,T}×{S,T} MT directions; benchmarks NLLB-200 (3.3B), fine-tuned NLLB (600M), and Whisper across 420 directions and 8 language pairs.",
+		role: "Co-author",
+		venue: "In preparation",
+		status: "in-progress",
+		code: "https://github.com/byu-matrix-lab/project-speech-registers",
+	},
 ];
+
+export const published = publications.filter((p) => p.status === "published");
+export const workingPapers = publications.filter((p) => p.status === "in-progress");
